@@ -86,7 +86,6 @@ function numberWithCommas(x) {
 
 //updating the control
 info.update = function(data) {
-	var that = this; //passing scope
 
 	var buttons = '<div id="slide-control" class="buttons btn-group btn-group-justified"> <a class="slide-up btn btn-primary"><span class="glyphicon glyphicon-chevron-up"> </span></a> <a class="slide-down btn btn-primary"> <span class="glyphicon glyphicon-chevron-down"></span></a> </div>';
 	var placeholder = '<div class="target-info"><h4><strong>Each dot is a well. Click for more info.</strong></h4></div>';
