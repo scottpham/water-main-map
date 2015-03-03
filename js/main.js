@@ -33,6 +33,13 @@ var colors = {
     'blue1': '#28556F', 'blue2': '#3D7FA6', 'blue3': '#51AADE', 'blue4': '#7DBFE6', 'blue5': '#A8D5EF', 'blue6': '#D3EAF7'
 };
 
+// //loop over json data
+// $.each(pointLocations, function(){
+//   $.each(this, function(k,v){
+//     // v.properties['marker-color'] = 'maroon';
+//     console.log(v.properties.Bldg);
+//   });
+// });
 
 //pointLocations is a global var with geojson dat
 var mapLayer= L.geoJson(pointLocations, {
@@ -50,29 +57,6 @@ L.tileLayer('http://api.tiles.mapbox.com/v4/nbclocal.l391gdl1/{z}/{x}/{y}.png?ac
 	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
 }).addTo(map);
 
-//size function
-//function getSize(d){
-//	return d > 50520229 ? 30 :
-//		d > 4994335.25 ? 25 :
-//		d > 1797653 ? 20 :
-//		d > 1101964.25 ? 15 :
-//		10;
-//}
-
-
-//layer style
-function pointLayerStyle(feature) {
-  return {
-  	'marker-color': 'maroon',
-  	'size': 'large'
-    // // radius: 6,
-    // // fillColor: colors.orange3,
-    // color:"black",
-    // weight: 1.2,
-    // // opacity: 1,
-    // // fillOpacity: 0.8
-  };
-}
 
 //bind click function to layer
 function onEachPoint(feature, layer) {
@@ -80,11 +64,36 @@ function onEachPoint(feature, layer) {
 		mouseover: clickToControl
 	});
 
-  feature.properties["marker-color"] = "#FFCCCC";
-  // mapLayer.setGeoJSON(pointLocations);
-  // console.log(feature.properties);
+  var colors = ['#ffffd4', '#fed98e', '#fe9929', '#d95f0e', '#993404'];
+  feature.properties['marker-size'] = 'small';
+  //color logic goes here
+  switch (feature.properties.Priority){
+    case 5:
+      feature.properties["marker-color"] = colors[4];
+      break;
+    case 4: 
+      feature.properties['marker-color'] = colors[3];
+      break;
+    case 3: 
+      feature.properties['marker-color'] = colors[2];
+      break;
+    case 2: 
+      feature.properties['marker-color'] = colors[1];
+      break;
+    case 1: 
+      feature.properties['marker-color'] = colors[0];
+      break;
+  }
+
+
+  
+
+  //layerstyles won't work without this
+  layer.setIcon(L.mapbox.marker.icon(feature.properties));
 }
 
+// mapLayer.setIcon(L.mapbox.marker.icon(feature.properties));
+  
 
 //begin control code//
 var info = L.control();
@@ -100,11 +109,7 @@ info.onAdd = function (map) {
 
 //sends click event to update control
 function clickToControl(e) {
-	var layer = e.target;
 	console.log(e.target.feature);
-	// mapLayer.setStyle({color: "black"});
-	// e.target.popup
-	// layer.setStyle({color: "red", radius: 8, fillOpacity: 1}); //highlight color
 	info.update(e.target);
 }
 
@@ -118,11 +123,17 @@ function numberWithCommas(x) {
 //updating the control
 info.update = function(data) {
 
+  var colors = ['#ffffd4', '#fed98e', '#fe9929', '#d95f0e', '#993404'];
+
 	var buttons = '<div id="slide-control" class="buttons btn-group btn-group-justified"> <a class="btn btn-primary"><span class="glyphicon glyphicon-chevron-up"> </span></a> </div>';
-	var placeholder = '<div class="target-info"><h4><strong>Click on a pin for more info.</strong></h4></div>';
 
+	var placeholder = '<div class="target-info"><h4><strong>Hover over a pin for more info.</strong></h4></div>';
 
-	this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Leak type:</strong>' + data.feature.properties['Leak Type'] + '</p><p><strong>Pipe Material: </strong>' + data.feature.properties['Pipe Material'] + '.</p></div>' + buttons ) : placeholder + buttons);
+  // var priority = data.feature.properties.Priority;
+
+  // console.log(priority);
+
+	this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Leak type: </strong>' + data.feature.properties['Leak Type'] + '</p><p><strong>Pipe Material: </strong>' + data.feature.properties['Pipe Material'] + '</p><p class="leak-text"><strong>Leak Priority: </strong><div class="priority" style="background-color:' + colors[data.feature.properties.Priority - 1] + '"><span class="priority-text">' + data.feature.properties.Priority + '</span></div></p><p><strong>Date Built: </strong>' +data.feature.properties['Year Installed'] + '</p></div>' + buttons ) : placeholder + buttons);
 
 
 	//have to put this function here or won't render right
