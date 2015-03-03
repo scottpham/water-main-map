@@ -1,16 +1,15 @@
 
 $(document).ready(function(){
 
-	console.log("Whatever");
 
 $("#geocoder").geocodify({
     //configure
     onSelect: function(data){
-
+        regionBias: 'US'
         var lat = data.geometry.location.k,
             lon = data.geometry.location.D;
-        // change view
-        map.setView([lat,lon], 13);
+        // change view and zoom
+        map.setView([lat,lon], 16);
         // add marker
         //check to see if a marker already exists
         if(typeof(marker) === 'undefined'){
@@ -22,11 +21,7 @@ $("#geocoder").geocodify({
             //otherwise, reset the old marker
             marker.setLatLng([lat,lon]);
         }
-    }
-});
-
-$(document).ready(function(){
-	console.log("I'm over here!");
+    }});
 });
 
 // dailygraphic colors
@@ -41,18 +36,15 @@ var colors = {
 
 //pointLocations is a global var with geojson dat
 var mapLayer= L.geoJson(pointLocations, {
-  style: pointLayerStyle,
   onEachFeature: onEachPoint,
-  pointToLayer: function(feature,latlng){
-    return L.marker(latlng, null); //null options.  used style instead
-  }
+  pointToLayer: L.mapbox.marker.style
 });
 
 //sets map to mountain view
 var map = L.map('map', {
 	scrollWheelZoom: false,
 	layers: [mapLayer]
-	}).setView([37.78, -122], 12);
+	}).setView([37.79, -122.21], 14);
 
 L.tileLayer('http://api.tiles.mapbox.com/v4/nbclocal.l391gdl1/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibmJjbG9jYWwiLCJhIjoiS3RIUzNQOCJ9.le_LAljPneLpb7tBcYbQXQ', {
 	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
@@ -64,14 +56,13 @@ L.tileLayer('http://api.tiles.mapbox.com/v4/nbclocal.l391gdl1/{z}/{x}/{y}.png?ac
 //		d > 4994335.25 ? 25 :
 //		d > 1797653 ? 20 :
 //		d > 1101964.25 ? 15 :
-//		10;	
+//		10;
 //}
 
 
 //layer style
 function pointLayerStyle(feature) {
   return {
-
   	'marker-color': 'maroon',
   	'size': 'large'
     // // radius: 6,
@@ -85,11 +76,15 @@ function pointLayerStyle(feature) {
 
 //bind click function to layer
 function onEachPoint(feature, layer) {
-
 	layer.on({
-		click: clickToControl
+		mouseover: clickToControl
 	});
+
+  feature.properties["marker-color"] = "#FFCCCC";
+  // mapLayer.setGeoJSON(pointLocations);
+  // console.log(feature.properties);
 }
+
 
 //begin control code//
 var info = L.control();
@@ -123,35 +118,23 @@ function numberWithCommas(x) {
 //updating the control
 info.update = function(data) {
 
-	var buttons = '<div id="slide-control" class="buttons btn-group btn-group-justified"> <a class="slide-up btn btn-primary"><span class="glyphicon glyphicon-chevron-up"> </span></a> <a class="slide-down btn btn-primary"> <span class="glyphicon glyphicon-chevron-down"></span></a> </div>';
+	var buttons = '<div id="slide-control" class="buttons btn-group btn-group-justified"> <a class="btn btn-primary"><span class="glyphicon glyphicon-chevron-up"> </span></a> </div>';
 	var placeholder = '<div class="target-info"><h4><strong>Click on a pin for more info.</strong></h4></div>';
 
 
-	this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Leak type:</strong>' + data.feature.properties['Leak Type'] + '</p><p><strong>Pipe Material: </strong>' + data.feature.properties['Pipe Material'] + '.</p>' + buttons ) : placeholder + buttons);
+	this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Leak type:</strong>' + data.feature.properties['Leak Type'] + '</p><p><strong>Pipe Material: </strong>' + data.feature.properties['Pipe Material'] + '.</p></div>' + buttons ) : placeholder + buttons);
 
-	    
+
 	//have to put this function here or won't render right
 	$(document).ready(function(){
-
-
-
-		$(".slide-up").click(function(){
-			$(".target-info").slideUp("slow");
+		$("#slide-control").click(function(){
+			$(".target-info").slideToggle("fast").toggleClass("hidden");
+      $(this).find('span').toggleClass("glyphicon-chevron-down", "hidden");
 		});
-
-		$(".slide-down").click(function(){
-			$(".target-info").slideDown("slow");
-		});	
-
-	});
-
-	
-};
+	 });
+  };
 
 info.addTo(map);
-
-
-});
 
 // helper function
 function findlocation(e) {

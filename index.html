@@ -1,23 +1,28 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<meta charset="utf-8">
+	<meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+    <!--JQUERY-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- GEOCODIFY -->
+    <script src="js/jquery.geocodify.js"></script>
+    <!-- GEOCODIFY CSS -->
+    <link rel="stylesheet" href="jquery.geocodify.css">
+    <!-- GOOGLE API -->
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
 
 	<!-- bootstrap CDN-->
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">  
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js">
-
-	<!--Leaflet code-->
-	<link rel="stylesheet" href="leaflet.css" />
-	    
-  	<!-- mapbox js cdn-->
-	<script src='//api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
-
-	<!--frac geojson-->
-    <script src="geoJSON/location.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	
-	<!--jquery -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>	
+	<!-- mapbox -->
+	<link href='//api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
+	<script src='//api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
 
 	<style type="text/css">
         #map {
@@ -73,7 +78,10 @@
 			<h1>MAP TITLE</h1>
 			<p>GRAF</p>
 
+	
             <p>Map by <a href="http://www.twitter.com/scottpham" target="_blank">Scott Pham</a>.</p>
+
+             <input class="geocoder" id="geocoder" placeholder="Enter an address..."></input>
             
 			<div id="map"></p>
 		</p>
@@ -81,7 +89,11 @@
 </p>
 	
 
-<script src="main.js"></script>
+
+
+<!--frac geojson-->
+ <script src="geoJSON/location.js"></script>
+<script src="js/main.js"></script>
 
        
 
