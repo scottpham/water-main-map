@@ -43,8 +43,9 @@ var colors = {
 
 //pointLocations is a global var with geojson dat
 var mapLayer= L.geoJson(pointLocations, {
-  onEachFeature: onEachPoint,
-  pointToLayer: L.mapbox.marker.style
+  onEachFeature: onEachPoint
+  // ,
+  // pointToLayer: L.mapbox.marker.style
 });
 
 //sets map to mountain view
@@ -67,26 +68,26 @@ function onEachPoint(feature, layer) {
   var colors = ['#ffffd4', '#fed98e', '#fe9929', '#d95f0e', '#993404'];
   feature.properties['marker-size'] = 'small';
   //color logic goes here
-  switch (feature.properties.Priority){
-    case 5:
+
+  var age = 2015 - feature.properties['Year Installed'];
+
+  switch (true){
+    case age > 100:
       feature.properties["marker-color"] = colors[4];
       break;
-    case 4: 
+    case age > 80: 
       feature.properties['marker-color'] = colors[3];
       break;
-    case 3: 
+    case age > 60: 
       feature.properties['marker-color'] = colors[2];
       break;
-    case 2: 
+    case age > 40: 
       feature.properties['marker-color'] = colors[1];
       break;
-    case 1: 
+    case age > 30: 
       feature.properties['marker-color'] = colors[0];
       break;
   }
-
-
-  
 
   //layerstyles won't work without this
   layer.setIcon(L.mapbox.marker.icon(feature.properties));
@@ -133,7 +134,7 @@ info.update = function(data) {
 
   // console.log(priority);
 
-	this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Leak type: </strong>' + data.feature.properties['Leak Type'] + '</p><p><strong>Pipe Material: </strong>' + data.feature.properties['Pipe Material'] + '</p><p class="leak-text"><strong>Leak Priority: </strong><div class="priority" style="background-color:' + colors[data.feature.properties.Priority - 1] + '"><span class="priority-text">' + data.feature.properties.Priority + '</span></div></p><p><strong>Date Built: </strong>' +data.feature.properties['Year Installed'] + '</p></div>' + buttons ) : placeholder + buttons);
+	this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Location: </strong>' + data.feature.properties.Street + ' at ' + data.feature.properties['Cross Street'] + '</p><p><strong>Leak Date: </strong>' + data.feature.properties['Created On'] + '</p><p><strong>Pipe Material: </strong>' + data.feature.properties['Pipe Material'] + '</p><p class="leak-text"><strong>Date Built: </strong><div class="priority" style="background-color:' + colors[data.feature.properties.Priority - 1] + '"><span class="priority-text">' + data.feature.properties['Year Installed'] + '</span></div></p></div>' + buttons ) : placeholder + buttons);
 
 
 	//have to put this function here or won't render right
