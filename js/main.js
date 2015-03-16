@@ -1,6 +1,7 @@
 
 $(document).ready(function(){
 
+console.log(colorbrewer.Oranges[5])
 
 $("#geocoder").geocodify({
     //configure
@@ -24,23 +25,9 @@ $("#geocoder").geocodify({
     }});
 });
 
-// dailygraphic colors
-var colors = {
-    'red1': '#6C2315', 'red2': '#A23520', 'red3': '#D8472B', 'red4': '#E27560', 'red5': '#ECA395', 'red6': '#F5D1CA',
-    'orange1': '#714616', 'orange2': '#AA6A21', 'orange3': '#E38D2C', 'orange4': '#EAAA61', 'orange5': '#F1C696', 'orange6': '#F8E2CA',
-    'yellow1': '#77631B', 'yellow2': '#B39429', 'yellow3': '#EFC637', 'yellow4': '#F3D469', 'yellow5': '#F7E39B', 'yellow6': '#FBF1CD',
-    'teal1': '#0B403F', 'teal2': '#11605E', 'teal3': '#17807E', 'teal4': '#51A09E', 'teal5': '#8BC0BF', 'teal6': '#C5DFDF',
-    'blue1': '#28556F', 'blue2': '#3D7FA6', 'blue3': '#51AADE', 'blue4': '#7DBFE6', 'blue5': '#A8D5EF', 'blue6': '#D3EAF7'
-};
 
-// //loop over json data
-// $.each(pointLocations, function(){
-//   $.each(this, function(k,v){
-//     // v.properties['marker-color'] = 'maroon';
-//     console.log(v.properties.Bldg);
-//   });
-// });
-
+//colors for map
+var colors = colorbrewer.Purples[5];
 //pointLocations is a global var with geojson dat
 var mapLayer= L.geoJson(pointLocations, {
   onEachFeature: onEachPoint
@@ -59,13 +46,14 @@ L.tileLayer('http://api.tiles.mapbox.com/v4/nbclocal.l391gdl1/{z}/{x}/{y}.png?ac
 }).addTo(map);
 
 
+
 //bind click function to layer
 function onEachPoint(feature, layer) {
 	layer.on({
 		mouseover: clickToControl
 	});
+  
 
-  var colors = ['#ffffd4', '#fed98e', '#fe9929', '#d95f0e', '#993404'];
   feature.properties['marker-size'] = 'small';
   //color logic goes here
 
@@ -92,8 +80,6 @@ function onEachPoint(feature, layer) {
   //layerstyles won't work without this
   layer.setIcon(L.mapbox.marker.icon(feature.properties));
 }
-
-// mapLayer.setIcon(L.mapbox.marker.icon(feature.properties));
   
 
 //begin control code//
@@ -105,12 +91,11 @@ info.onAdd = function (map) {
 	return this._div;
 };
 
-
 //listeners
 
 //sends click event to update control
 function clickToControl(e) {
-	console.log(e.target.feature);
+	// console.log(e.target.feature);
 	info.update(e.target);
 }
 
@@ -124,8 +109,6 @@ function numberWithCommas(x) {
 //updating the control
 info.update = function(data) {
 
-  var colors = ['#ffffd4', '#fed98e', '#fe9929', '#d95f0e', '#993404'];
-
 	var buttons = '<div id="slide-control" class="buttons btn-group btn-group-justified"> <a class="btn btn-primary"><span class="glyphicon glyphicon-chevron-up"> </span></a> </div>';
 
 	var placeholder = '<div class="target-info"><h4><strong>Hover over a pin for more info.</strong></h4></div>';
@@ -134,7 +117,7 @@ info.update = function(data) {
 
   // console.log(priority);
 
-	this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Location: </strong>' + data.feature.properties.Street + ' at ' + data.feature.properties['Cross Street'] + '</p><p><strong>Leak Date: </strong>' + data.feature.properties['Created On'] + '</p><p><strong>Pipe Material: </strong>' + data.feature.properties['Pipe Material'] + '</p><p class="leak-text"><strong>Date Built: </strong><div class="priority" style="background-color:' + colors[data.feature.properties.Priority - 1] + '"><span class="priority-text">' + data.feature.properties['Year Installed'] + '</span></div></p></div>' + buttons ) : placeholder + buttons);
+	this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Location: </strong>' + data.feature.properties.Street + ' at ' + data.feature.properties['Cross Street'] + '</p><p><strong>Leak Date: </strong>' + data.feature.properties['Created On'] + '</p><p><strong>Pipe Material: </strong>' + data.feature.properties['Pipe Material'] + '</p><p class="leak-text"><strong>Date Built: </strong><div class="priority" style="background-color:' + data.feature.properties["marker-color"] + '"><span class="priority-text">' + data.feature.properties['Year Installed'] + '</span></div></p></div>' + buttons ) : placeholder + buttons);
 
 
 	//have to put this function here or won't render right
