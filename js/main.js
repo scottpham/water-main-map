@@ -26,7 +26,7 @@ $(document).ready(function() {
 
 
 //colors for map
-var colors = colorbrewer.Purples[5];
+var colors = colorbrewer.Purples[7];
 //pointLocations is a global var with geojson dat
 var mapLayer = L.geoJson(pointLocations, {
     onEachFeature: onEachPoint
@@ -39,7 +39,9 @@ var map = L.map('map', {
     scrollWheelZoom: false
         // ,
         // layers: [mapLayer] (this happens in a function updatePipes() )
-}).setView([37.79, -122.21], 17);
+}).setView([37.80995, -122.26938], 16);
+
+
 
 L.tileLayer('http://api.tiles.mapbox.com/v4/nbclocal.l391gdl1/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibmJjbG9jYWwiLCJhIjoiS3RIUzNQOCJ9.le_LAljPneLpb7tBcYbQXQ', {
     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
@@ -73,7 +75,7 @@ function updatePipes() {
       var geom = points.geometry.coordinates;
 
       if (geom[0] < boxCoords[3] && geom[0] > boxCoords[1] && geom[1] < boxCoords[0] && geom[1] > boxCoords[2]){
-                        return true;
+        return true;
       }
   }));
 
@@ -102,20 +104,22 @@ function onEachPoint(feature, layer) {
 
     switch (true) {
         case age > 100:
-            feature.properties["marker-color"] = colors[4];
+            feature.properties["marker-color"] = colors[6];
             break;
         case age > 80:
-            feature.properties['marker-color'] = colors[3];
+            feature.properties['marker-color'] = colors[5];
             break;
         case age > 60:
-            feature.properties['marker-color'] = colors[2];
+            feature.properties['marker-color'] = colors[4];
             break;
         case age > 40:
+            feature.properties['marker-color'] = colors[3];
+            break;
+        case age > 20:
+            feature.properties['marker-color'] = colors[2];
+            break;
+        default:
             feature.properties['marker-color'] = colors[1];
-            break;
-        case age > 30:
-            feature.properties['marker-color'] = colors[0];
-            break;
     }
 
     //layerstyles won't work without this
