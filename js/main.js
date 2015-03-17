@@ -1,8 +1,6 @@
 
 $(document).ready(function(){
 
-console.log(colorbrewer.Oranges[5])
-
 $("#geocoder").geocodify({
     //configure
     onSelect: function(data){
@@ -37,15 +35,20 @@ var mapLayer= L.geoJson(pointLocations, {
 
 //sets map to mountain view
 var map = L.map('map', {
-	scrollWheelZoom: false,
-	layers: [mapLayer]
+	scrollWheelZoom: false
+  // ,
+	// layers: [mapLayer]
 	}).setView([37.79, -122.21], 14);
 
 L.tileLayer('http://api.tiles.mapbox.com/v4/nbclocal.l391gdl1/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibmJjbG9jYWwiLCJhIjoiS3RIUzNQOCJ9.le_LAljPneLpb7tBcYbQXQ', {
 	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
 }).addTo(map);
 
+function updatePipes(){
+mapLayer.addTo(map);
+}
 
+updatePipes();
 
 //bind click function to layer
 function onEachPoint(feature, layer) {
