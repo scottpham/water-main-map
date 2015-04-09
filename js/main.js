@@ -110,7 +110,7 @@ function onEachPoint(feature, layer) {
     feature.properties['marker-size'] = 'small';
     //color logic goes here
 
-    var age = 2015 - feature.properties['Year Installed'];
+    var age = feature.properties['age'];
 
     switch (true) {
         case age > 100:
@@ -182,7 +182,15 @@ info.update = function(data) {
 
     // console.log(priority);
 
-    this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Location: </strong>' + data.feature.properties.Street + ' at ' + data.feature.properties['Cross Street'] + '</p><p><strong>Leak Date: </strong>' + data.feature.properties['Created On'] + '</p><p><strong>Pipe Material: </strong>' + data.feature.properties['Pipe Material'] + '</p><p class="leak-text"><strong>Date Built:  </strong><div class="priority" style="background-color:' + data.feature.properties["marker-color"] + '"><span class="priority-text">' + data.feature.properties['Year Installed'] + '</span></p></p></p>' + buttons) : placeholder + buttons);
+    this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Location: </strong>' + data.feature.properties.address + 
+        '</p><p><strong>Leak Date: </strong>' + 
+        data.feature.properties['year_installed'] + 
+        '</p><p><strong>Pipe Material: </strong>' + 
+        data.feature.properties['material'] + 
+        '</p><p class="leak-text"><strong>Date Built:  </strong><div class="priority" style="background-color:' + 
+        data.feature.properties["marker-color"] + '"><span class="priority-text">' + 
+        data.feature.properties['year_installed'] + '</span></p></p></p>' +
+         buttons) : placeholder + buttons);
 
 
     //have to put this function here or won't render right
