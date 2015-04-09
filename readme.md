@@ -3,7 +3,7 @@ This is a graphic made for the NBC Bay Area Investigative Unit, available at htt
 The aim is to visualize leaks of drinking water pipes in the Bay Area in the context of a rapidly aging infrastructure. Heavily inspired by [this map](http://graphics.latimes.com/la-aging-water-infrastructure/) from the LA Times. 
 
 ###Data:
-Leaks from the past 5 years in the East Bay. From EBMUD.
+Leaks from the past 4 years from the East Bay Municipal Utilities District, the San Francisco Water, Power and Sewer, San Jose Water Company and the City of San Jose.  
 
 ###Technologies used:
 - Mapbox.js
