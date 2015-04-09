@@ -1,5 +1,15 @@
 $(document).ready(function() {
 
+    $('#button').click(function() {
+        if (screenfull.enabled) {
+            screenfull.toggle();
+            console.log("Screenfull not enabled, request sent");
+        } else {
+            alert("Sorry, full screen isn't allowed by your browser.")
+            console.log("Screenfull not enabled");
+        }
+    });
+
     $("#geocoder").geocodify({
         //configure
         onSelect: function(data) {
@@ -49,45 +59,45 @@ L.tileLayer('http://api.tiles.mapbox.com/v4/nbclocal.l391gdl1/{z}/{x}/{y}.png?ac
 
 function updatePipes() {
 
-  $('.leaflet-marker-pane img').not(':first').remove();
+        $('.leaflet-marker-pane img').not(':first').remove();
 
-  // get boundaries of map
-  var bounds = map.getBounds();
-  var SE = [(bounds.getSouthEast()).lat, (bounds.getSouthEast()).lng];
-  var SW = [(bounds.getSouthWest()).lat, (bounds.getSouthWest()).lng];
-  var NE = [(bounds.getNorthEast()).lat, (bounds.getNorthEast()).lng];
-  var NW = [(bounds.getNorthWest()).lat, (bounds.getNorthWest()).lng];
+        // get boundaries of map
+        var bounds = map.getBounds();
+        var SE = [(bounds.getSouthEast()).lat, (bounds.getSouthEast()).lng];
+        var SW = [(bounds.getSouthWest()).lat, (bounds.getSouthWest()).lng];
+        var NE = [(bounds.getNorthEast()).lat, (bounds.getNorthEast()).lng];
+        var NW = [(bounds.getNorthWest()).lat, (bounds.getNorthWest()).lng];
 
-  var polygon = turf.polygon([
-      [
-        [SE[0], SE[1]],
-        [SW[0], SW[1]],
-        [NE[0], NE[1]],
-        [NW[0], NW[1]],
-        [SE[0], SE[1]]
-      ]
-    ]);
+        var polygon = turf.polygon([
+            [
+                [SE[0], SE[1]],
+                [SW[0], SW[1]],
+                [NE[0], NE[1]],
+                [NW[0], NW[1]],
+                [SE[0], SE[1]]
+            ]
+        ]);
 
-  var boxCoords = [NW[0],NW[1],SE[0],SE[1]];
+        var boxCoords = [NW[0], NW[1], SE[0], SE[1]];
 
-  // variable is a feature collection of points that are within bounds
-  var within = turf.featurecollection(pointLocations.features.filter(function(points) {
-      var geom = points.geometry.coordinates;
+        // variable is a feature collection of points that are within bounds
+        var within = turf.featurecollection(pointLocations.features.filter(function(points) {
+            var geom = points.geometry.coordinates;
 
-      if (geom[0] < boxCoords[3] && geom[0] > boxCoords[1] && geom[1] < boxCoords[0] && geom[1] > boxCoords[2]){
-        return true;
-      }
-  }));
+            if (geom[0] < boxCoords[3] && geom[0] > boxCoords[1] && geom[1] < boxCoords[0] && geom[1] > boxCoords[2]) {
+                return true;
+            }
+        }));
 
-  //create a mapbox layer out of pints that are within bounds
-  var thisLayer = L.geoJson(within, {
-    onEachFeature: onEachPoint
-  });
+        //create a mapbox layer out of pints that are within bounds
+        var thisLayer = L.geoJson(within, {
+            onEachFeature: onEachPoint
+        });
 
-  // actually add layer
-  thisLayer.addTo(map);
-}
-// this function draws the points
+        // actually add layer
+        thisLayer.addTo(map);
+    }
+    // this function draws the points
 updatePipes();
 
 //bind click function to layer
@@ -127,14 +137,14 @@ function onEachPoint(feature, layer) {
 }
 
 // reset points when state changes:
-  map.on('dragend moveend',function(e){
+map.on('dragend moveend', function(e) {
     // var center = map.getCenter();
     // marker.setLatLng(center);
     updatePipes();
-  });
-  map.on('zoomend',function(e){
+});
+map.on('zoomend', function(e) {
     updatePipes();
-  });
+});
 
 
 //begin control code//
@@ -164,15 +174,15 @@ function numberWithCommas(x) {
 //updating the control
 info.update = function(data) {
 
-    var buttons = '<div id="slide-control" class="buttons btn-group btn-group-justified"> <a class="btn btn-primary"><span class="glyphicon glyphicon-chevron-up"> </span></a> </div>';
+    var buttons = '<div id="slide-control" class="buttons btn-group btn-group-justified"> <a class="btn btn-primary"><span class="glyphicon glyphicon-chevron-up"> </span></a> </p>';
 
-    var placeholder = '<div class="target-info"><h4><strong>Hover over a pin for more info.</strong></h4></div>';
+    var placeholder = '<div class="target-info"><h4><strong>Hover over a pin for more info.</strong></h4></p>';
 
     // var priority = data.feature.properties.Priority;
 
     // console.log(priority);
 
-    this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Location: </strong>' + data.feature.properties.Street + ' at ' + data.feature.properties['Cross Street'] + '</p><p><strong>Leak Date: </strong>' + data.feature.properties['Created On'] + '</p><p><strong>Pipe Material: </strong>' + data.feature.properties['Pipe Material'] + '</p><p class="leak-text"><strong>Date Built: </strong><div class="priority" style="background-color:' + data.feature.properties["marker-color"] + '"><span class="priority-text">' + data.feature.properties['Year Installed'] + '</span></div></p></div>' + buttons) : placeholder + buttons);
+    this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Location: </strong>' + data.feature.properties.Street + ' at ' + data.feature.properties['Cross Street'] + '</p><p><strong>Leak Date: </strong>' + data.feature.properties['Created On'] + '</p><p><strong>Pipe Material: </strong>' + data.feature.properties['Pipe Material'] + '</p><p class="leak-text"><strong>Date Built:  </strong><div class="priority" style="background-color:' + data.feature.properties["marker-color"] + '"><span class="priority-text">' + data.feature.properties['Year Installed'] + '</span></p></p></p>' + buttons) : placeholder + buttons);
 
 
     //have to put this function here or won't render right

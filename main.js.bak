@@ -1,7 +1,8 @@
 
 $(document).ready(function(){
 
-	console.log("Whatever");
+
+
 
 $("#geocoder").geocodify({
     //configure
@@ -123,8 +124,8 @@ function numberWithCommas(x) {
 //updating the control
 info.update = function(data) {
 
-	var buttons = '<div id="slide-control" class="buttons btn-group btn-group-justified"> <a class="slide-up btn btn-primary"><span class="glyphicon glyphicon-chevron-up"> </span></a> <a class="slide-down btn btn-primary"> <span class="glyphicon glyphicon-chevron-down"></span></a> </div>';
-	var placeholder = '<div class="target-info"><h4><strong>Click on a pin for more info.</strong></h4></div>';
+	var buttons = '<div id="slide-control" class="buttons btn-group btn-group-justified"> <a class="slide-up btn btn-primary"><span class="glyphicon glyphicon-chevron-up"> </span></a> <a class="slide-down btn btn-primary"> <span class="glyphicon glyphicon-chevron-down"></span></a> </p>';
+	var placeholder = '<div class="target-info"><h4><strong>Click on a pin for more info.</strong></h4></p>';
 
 
 	this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Leak type:</strong>' + data.feature.properties['Leak Type'] + '</p><p><strong>Pipe Material: </strong>' + data.feature.properties['Pipe Material'] + '.</p>' + buttons ) : placeholder + buttons);

@@ -14,7 +14,9 @@
     <link rel="stylesheet" href="jquery.geocodify.css">
     <!-- GOOGLE API -->
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-
+	
+	<!-- Screenfull CDN -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/screenfull.js/2.0.0/screenfull.js"></script>
 
 	<!-- bootstrap CDN-->
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">  
@@ -74,16 +76,17 @@
 		/*leak color box*/
 		.priority {
 			height: 25px;
-			width: 55px;
+			width: 50px;
 			border: 1px solid black;
 			float: left;
+			margin-left: 1em;
 		}
 		/*text inside of box*/
 		.priority-text {
+			text-align: center;
 			vertical-align: middle;
-			position: relative;
-			top: 15%;
-			left: 20%;
+			line-height: 25px;
+			padding-left: 20%;
 			color: white;
 			text-align: center;
 			z-index: 999;
@@ -94,6 +97,7 @@
 		}
 		.legend label,
 		.legend span {
+
 		  display:block;
 		  float:left;
 		  height:15px;
@@ -110,14 +114,16 @@
 	TITLE OF MAP
 	</title>
 </head>
-<body>
+<body id="app">
 <div class ="container-fluid">
 	<div class = "row">
 		<div class = "col-xs-12">
 			<h1>MAP TITLE</h1>
+			<button class="btn btn-default btn-sm pull-right" id="button">Toggle FullScreen</button>
 			<p>GRAF</p>
 
 			<!-- ["#f2f0f7","#cbc9e2","#9e9ac8","#756bb1","#54278f"] -->
+			
 			 <p>Age of Pipes</p>
 			 <div class="legend clearfix">
 			 	
@@ -134,11 +140,11 @@
         <label>60-80 Years</label>
         <label>80-100 Years</label>
         <label>More than 100 Years</label>
-        </div>
+        </p>
 
              <input class="geocoder" id="geocoder" placeholder="Enter an address..."></input>
             
-			<div id="map"></div>
+			<div id="map"></p>
 
 
 
