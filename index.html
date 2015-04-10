@@ -61,15 +61,30 @@
 		/*leak color box*/
 		.priority {
 			height: 25px;
-			width: 80px;
+			width: 100%;
 			border: 1px solid gray;
 			float: left;
-			margin-left: 1em;
+			margin-left: 2px;
+			/*text inside is centered*/
+			text-align: center;
 		}
 
 		/*date test*/
 		.leak-text {
 			float: left;
+			margin: auto;
+		}
+
+				/*text inside of box*/
+		.priority-text {
+			text-align: center;
+			vertical-align: middle;
+			line-height: 25px;
+			margin-left: auto;
+			margin-right: auto;
+			color: white;
+			text-align: center;
+			z-index: 999;
 		}
 
 		/*legend scale spans*/
@@ -83,16 +98,7 @@
 		  font-size: 9px;
 		}
 
-		/*text inside of box*/
-		.priority-text {
-			/*text-align: center;*/
-			vertical-align: middle;
-			line-height: 25px;
-			padding-left: 20%;
-			color: white;
-			text-align: center;
-			z-index: 999;
-		}
+
 
 		#slide-control .btn {
 			padding: 0px 0px; 

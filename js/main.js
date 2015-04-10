@@ -200,14 +200,15 @@ info.update = function(data) {
 
     // console.log(priority);
 
-    this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Location: </strong>' + data.feature.properties.address + 
-        '</p><p><strong>Leak Date: </strong>' + 
+    this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Location: </strong></p><p>' + data.feature.properties.address + 
+        '</p><p><strong>Leak Date: </strong></p>' + 
         data.feature.properties['finish_date'] + 
-        '</p><p><strong>Pipe Material: </strong>' + 
+        '</p><p><strong>Pipe Material: </strong></p>' + 
         data.feature.properties['material'] + 
-        '</p><p class="leak-text"><strong>Date Built:  </strong><div class="priority" style="background-color:' + 
-        data.feature.properties["marker-color"] + '"><span class="priority-text">' + 
-        data.feature.properties['year_installed'] + '</span>' +
+        '</p><p class="leak-text"><strong>Date Built: </strong><div class="priority" style="background-color:' + 
+        data.feature.properties["marker-color"] +
+         '"><span class="priority-text">' + 
+        data.feature.properties['year_installed'] + '</span></div>' +
          buttons) : placeholder + buttons);
 
 
