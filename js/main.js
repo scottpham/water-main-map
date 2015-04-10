@@ -174,9 +174,11 @@ function numberWithCommas(x) {
 //updating the control
 info.update = function(data) {
 
-    var buttons = '<div id="slide-control" class="buttons btn-group btn-group-justified"> <a class="btn btn-primary"><span class="glyphicon glyphicon-chevron-up"> </span></a> </p>';
+    // var buttons = '<div id="slide-control" class="buttons btn-group btn-group-justified"> <a class="btn btn-primary"><span class="glyphicon glyphicon-chevron-up"> </span></a> </div></div>';
 
-    var placeholder = '<div class="target-info"><h4><strong>Hover over a pin for more info.</strong></h4></p>';
+    var buttons = "</div>"
+
+    var placeholder = '<div><h4><strong>Hover over a pin for more info.</strong></h4></p>';
 
     // var priority = data.feature.properties.Priority;
 
@@ -184,12 +186,12 @@ info.update = function(data) {
 
     this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Location: </strong>' + data.feature.properties.address + 
         '</p><p><strong>Leak Date: </strong>' + 
-        data.feature.properties['year_installed'] + 
+        data.feature.properties['finish_date'] + 
         '</p><p><strong>Pipe Material: </strong>' + 
         data.feature.properties['material'] + 
         '</p><p class="leak-text"><strong>Date Built:  </strong><div class="priority" style="background-color:' + 
         data.feature.properties["marker-color"] + '"><span class="priority-text">' + 
-        data.feature.properties['year_installed'] + '</span></p></p></p>' +
+        data.feature.properties['year_installed'] + '</span>' +
          buttons) : placeholder + buttons);
 
 
@@ -197,7 +199,7 @@ info.update = function(data) {
     $(document).ready(function() {
         $("#slide-control").click(function() {
             $(".target-info").slideToggle("fast").toggleClass("hidden");
-            $(this).find('span').toggleClass("glyphicon-chevron-down", "hidden");
+            $(this).find('span').toggleClass("glyphicon-chevron-down");
         });
     });
 };
