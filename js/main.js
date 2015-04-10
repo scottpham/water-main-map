@@ -40,8 +40,6 @@ var colors = colorbrewer.Purples[7];
 //pointLocations is a global var with geojson dat
 var mapLayer = L.geoJson(pointLocations, {
     onEachFeature: onEachPoint
-        // ,
-        // pointToLayer: L.mapbox.marker.style
 });
 
 //sets map to east bay
@@ -57,10 +55,13 @@ L.tileLayer('http://api.tiles.mapbox.com/v4/nbclocal.l391gdl1/{z}/{x}/{y}.png?ac
     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
 }).addTo(map);
 
+// Repopulates map with points
 function updatePipes() {
 
-
         $('.leaflet-marker-pane img').not(':first').remove();
+        // remove shadow left by locating marker
+        $('.leaflet-shadow-pane img').remove();
+
 
         // get boundaries of map
         var bounds = map.getBounds();
@@ -113,9 +114,14 @@ function onEachPoint(feature, layer) {
     //color logic goes here
 
     var age = feature.properties['age'];
-    var markerColor = feature.properties['marker-color'];
 
     switch (true) {
+        case feature.properties['leak_type'] == null:
+            feature.properties['leak_type'] = "Unknown";
+        case feature.properties['finish_date'] == null:
+            feature.properties['finish_date'] = 'Unknown';
+        case feature.properties['material'] == null:
+            feature.properties['material'] = "Unknown";
         case age == null:
             feature.properties["marker-color"] = "#898989";
             feature.properties["year_installed"] = "Unknown";
