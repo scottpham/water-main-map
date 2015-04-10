@@ -11,9 +11,9 @@ $(document).ready(function() {
     });
 
     $("#geocoder").geocodify({
+         regionBias: 'US',
         //configure
         onSelect: function(data) {
-            regionBias: 'US'
             var lat = data.geometry.location.k,
                 lon = data.geometry.location.D;
             // change view and zoom
@@ -59,6 +59,7 @@ L.tileLayer('http://api.tiles.mapbox.com/v4/nbclocal.l391gdl1/{z}/{x}/{y}.png?ac
 
 function updatePipes() {
 
+
         $('.leaflet-marker-pane img').not(':first').remove();
 
         // get boundaries of map
@@ -68,6 +69,7 @@ function updatePipes() {
         var NE = [(bounds.getNorthEast()).lat, (bounds.getNorthEast()).lng];
         var NW = [(bounds.getNorthWest()).lat, (bounds.getNorthWest()).lng];
 
+        // create bounding box
         var polygon = turf.polygon([
             [
                 [SE[0], SE[1]],
@@ -103,18 +105,23 @@ updatePipes();
 //bind click function to layer
 function onEachPoint(feature, layer) {
     layer.on({
-        mouseover: clickToControl
+        mouseover: hoverToControl,
+        click: clickToControl
     });
-
 
     feature.properties['marker-size'] = 'small';
     //color logic goes here
 
     var age = feature.properties['age'];
+    var markerColor = feature.properties['marker-color'];
 
     switch (true) {
+        case age == null:
+            feature.properties["marker-color"] = "#898989";
+            feature.properties["year_installed"] = "Unknown";
+            break;
         case age > 100:
-            feature.properties["marker-color"] = colors[6];
+            feature.properties['marker-color'] = colors[6];
             break;
         case age > 80:
             feature.properties['marker-color'] = colors[5];
@@ -130,7 +137,7 @@ function onEachPoint(feature, layer) {
             break;
         default:
             feature.properties['marker-color'] = colors[1];
-    }
+        }
 
     //layerstyles won't work without this
     layer.setIcon(L.mapbox.marker.icon(feature.properties));
@@ -158,10 +165,13 @@ info.onAdd = function(map) {
 
 //listeners
 
-//sends click event to update control
-function clickToControl(e) {
-    // console.log(e.target.feature);
+//sends hover event to update control
+function hoverToControl(e) {
     info.update(e.target);
+}
+
+function clickToControl(e){
+   console.log(e.target.feature.properties); 
 }
 
 // Cribbed from http://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
