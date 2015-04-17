@@ -19,6 +19,7 @@ $(document).ready(function() {
             // change view and zoom
             map.setView([lat, lon], 17);
 
+            // call pipe loading function
             updatePipes();
             // add marker
             //check to see if a marker already exists
@@ -92,7 +93,7 @@ function updatePipes() {
             }
         }));
 
-        //create a mapbox layer out of pints that are within bounds
+        //create a mapbox layer out of points that are within bounds
         var thisLayer = L.geoJson(within, {
             onEachFeature: onEachPoint
         });
@@ -105,6 +106,9 @@ updatePipes();
 
 //bind click function to layer
 function onEachPoint(feature, layer) {
+    if(feature == null){
+        return
+    }
     layer.on({
         mouseover: hoverToControl,
         click: clickToControl
@@ -116,12 +120,19 @@ function onEachPoint(feature, layer) {
     var age = feature.properties['age'];
 
     switch (true) {
+        case feature == null:
+            break;
+        case feature.properties['year'] != 2014:
+            feature = null;
+            break;
+        // Replace nulls with unknowns
         case feature.properties['leak_type'] == null:
             feature.properties['leak_type'] = "Unknown";
         case feature.properties['finish_date'] == null:
             feature.properties['finish_date'] = 'Unknown';
         case feature.properties['material'] == null:
             feature.properties['material'] = "Unknown";
+        // Color by age
         case age == null:
             feature.properties["marker-color"] = "#898989";
             feature.properties["year_installed"] = "Unknown";
