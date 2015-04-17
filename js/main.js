@@ -56,6 +56,9 @@ L.tileLayer('http://api.tiles.mapbox.com/v4/nbclocal.l391gdl1/{z}/{x}/{y}.png?ac
     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
 }).addTo(map);
 
+// FULLSCREEN
+L.control.fullscreen().addTo(map);
+
 // Repopulates map with points
 function updatePipes() {
 
@@ -241,3 +244,4 @@ function findlocation(e) {
 
 //instantiate helper finder function
 map.on('click', findlocation);
+
