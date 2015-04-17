@@ -120,11 +120,11 @@ function onEachPoint(feature, layer) {
     var age = feature.properties['age'];
 
     switch (true) {
-        case feature == null:
-            break;
-        case feature.properties['year'] != 2014:
-            feature = null;
-            break;
+        // case feature == null:
+        //     break;
+        // case feature.properties['year'] != 2014:
+        //     feature = null;
+        //     break;
         // Replace nulls with unknowns
         case feature.properties['leak_type'] == null:
             feature.properties['leak_type'] = "Unknown";
