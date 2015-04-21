@@ -1,15 +1,5 @@
 $(document).ready(function() {
 
-    $('#button').click(function() {
-        if (screenfull.enabled) {
-            screenfull.toggle();
-            console.log("Screenfull not enabled, request sent");
-        } else {
-            alert("Sorry, full screen isn't allowed by your browser.")
-            console.log("Screenfull not enabled");
-        }
-    });
-
     $("#geocoder").geocodify({
          regionBias: 'US',
         //configure
@@ -86,8 +76,6 @@ var map = L.map('map', {
         // layers: [mapLayer] (this happens in a function updatePipes() )
 }).setView([37.80995, -122.26938], 16);
 
-
-
 L.tileLayer('http://api.tiles.mapbox.com/v4/nbclocal.l391gdl1/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibmJjbG9jYWwiLCJhIjoiS3RIUzNQOCJ9.le_LAljPneLpb7tBcYbQXQ', {
     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
 }).addTo(map);
@@ -101,7 +89,6 @@ function updatePipes() {
         $('.leaflet-marker-pane img').not(':first').remove();
         // remove shadow left by locating marker
         $('.leaflet-shadow-pane img').remove();
-
 
         // get boundaries of map
         var bounds = map.getBounds();
@@ -204,7 +191,6 @@ map.on('moveend', function(e) {
     updatePipes();
 });
 
-
 //begin control code//
 var info = L.control();
 
@@ -235,15 +221,9 @@ function numberWithCommas(x) {
 //updating the control
 info.update = function(data) {
 
-    // var buttons = '<div id="slide-control" class="buttons btn-group btn-group-justified"> <a class="btn btn-primary"><span class="glyphicon glyphicon-chevron-up"> </span></a> </div></div>';
-
     var buttons = "</div>"
 
     var placeholder = '<div><h4><strong>Hover over a pin for more info.</strong></h4></p>';
-
-    // var priority = data.feature.properties.Priority;
-
-    // console.log(priority);
 
     this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Location: </strong></p><p>' + data.feature.properties.address + 
         '</p><p><strong>Leak Date: </strong></p>' + 
@@ -255,15 +235,6 @@ info.update = function(data) {
          '"><span class="priority-text">' + 
         data.feature.properties['year_installed'] + '</span></div>' +
          buttons) : placeholder + buttons);
-
-
-    //have to put this function here or won't render right
-    $(document).ready(function() {
-        $("#slide-control").click(function() {
-            $(".target-info").slideToggle("fast").toggleClass("hidden");
-            $(this).find('span').toggleClass("glyphicon-chevron-down");
-        });
-    });
 };
 
 info.addTo(map);
