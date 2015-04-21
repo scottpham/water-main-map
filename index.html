@@ -147,6 +147,19 @@
 			display: none;
 		}
 
+		.background {
+			position: absolute;
+			top: 110px;
+			left: 20px;
+			z-index: 1000;
+			background: white;
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			height: 280px;
+			width: 80px;
+			opacity: 0.9;
+			border-radius: 5px;
+		}
+
 	</style>
 
 	<title>
@@ -186,6 +199,7 @@
     
    	<div class="row"> 
    		<div class="col-xs-12">
+   			<div class="background"></div>
    			 <div class="slider" id="slider"></div>
 			<div id="map">
 		</div>
