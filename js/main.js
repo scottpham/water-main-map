@@ -35,6 +35,42 @@ $(document).ready(function() {
     });
 });
 
+// SLIDER
+$('#slider').noUiSlider({
+    start: [ 2010, 2010 ],
+    step: 1,
+    orientation: "vertical",
+    connect: true,
+    range: {
+        'min': 2010,
+        'max': 2014
+    }
+});
+
+$('#slider').noUiSlider_pips({
+    mode: 'steps'
+});
+
+// set globals
+var range,
+    lower,
+    upper;
+
+function getSliderVals(){
+    range = $('#slider').val(),
+    lower = range[0],
+    upper = range[1];
+    console.log(range);
+}
+
+getSliderVals();
+
+$('#slider').on({
+    'change': function(){
+        getSliderVals();
+        updatePipes();
+    }
+});
 
 //colors for map
 var colors = colorbrewer.Purples[7];
@@ -155,13 +191,16 @@ function onEachPoint(feature, layer) {
     layer.setIcon(L.mapbox.marker.icon(feature.properties));
 }
 
+// get center data
+function getCenter(){
+    var center = map.getCenter();
+    var zoom = map.getZoom();
+    console.log("setView([" + center.lat + ", " + center.lng + "], " + zoom + ")");
+    }
+
 // reset points when state changes:
-map.on('dragend moveend', function(e) {
-    // var center = map.getCenter();
-    // marker.setLatLng(center);
-    updatePipes();
-});
-map.on('zoomend', function(e) {
+map.on('moveend', function(e) {
+    getCenter();
     updatePipes();
 });
 

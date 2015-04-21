@@ -36,6 +36,13 @@
 	<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.4/Leaflet.fullscreen.min.js'></script>
 	<link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.4/leaflet.fullscreen.css' rel='stylesheet' />
 
+	<!-- SLIDER -->
+	<link href="slider/jquery.nouislider.min.css" rel="stylesheet">
+	<link href="slider/jquery.nouislider.pips.min.css" rel="stylesheet">
+
+	<!-- SLIDER -->
+	<script src="slider/jquery.nouislider.all.min.js"></script>
+
 	<style type="text/css">
         #map {
 			width: 100%;
@@ -102,8 +109,6 @@
 		  font-size: 9px;
 		}
 
-
-
 		#slide-control .btn {
 			padding: 0px 0px; 
 			-moz-border-radius: 0; 
@@ -121,6 +126,27 @@
 			background: white; 
 			color: steelblue; }
 
+		
+		.slider {
+			position: absolute;
+			top: 125px;
+			left: 30px;
+			z-index: 10000;
+			height: 250px;
+			/*width: 250px;*/
+		}
+
+		.noUi-value {
+			color: black;
+			font-size: 14px;
+			font-weight: bold;
+			margin-left: 0px;
+			margin-top: -10px;
+		}
+		.noUi-marker {
+			display: none;
+		}
+
 	</style>
 
 	<title>
@@ -136,8 +162,6 @@
 			<p>In old cities where water mains can be as much as 152 years old, leaks happen every day. In fact, they happen 3.6 times a day, by our calculations. Most of those leaks are from cast iron pipes built somewhere between 70 and 85 years ago. The lifespan of those pipes are up right about now.</p>
 		<!-- 	<p>Repair crews are barely keeping up with the problem as it stands. Experts say it's only going to get worse, unless cities and states mount major investments into pipe infrastrcture.</p> -->
 			<p>To show the extent of the problem, we asked major water agencies in San Francisco, San Jose and the East Bay to tell us where and when pipe leaks happen. We've mapped them here. Pay attention to the color of the points: the darker the color, the older the pipe. The darkest are over a 100 years old.</p>
-
-			<!-- ["#f2f0f7","#cbc9e2","#9e9ac8","#756bb1","#54278f"] -->
 			
 			 <h4>Age of Pipes:</h4>
 			 <div class="legend clearfix">
@@ -162,6 +186,7 @@
     
    	<div class="row"> 
    		<div class="col-xs-12">
+   			 <div class="slider" id="slider"></div>
 			<div id="map">
 		</div>
 	</div>
