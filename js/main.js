@@ -47,8 +47,8 @@ var range,
     upper;
 
 function getSliderVals(){
-    range = $('#slider').val(),
-    lower = range[0],
+    range = $('#slider').val();
+    lower = range[0];
     upper = range[1];
     console.log(range);
 }
@@ -65,16 +65,11 @@ $('#slider').on({
 //colors for map
 var colors = colorbrewer.Purples[7];
 //pointLocations is a global var with geojson dat
-var mapLayer = L.geoJson(pointLocations, {
-    onEachFeature: onEachPoint
-});
 
 //sets map to east bay
 var map = L.map('map', {
     scrollWheelZoom: false
-        // ,
-        // layers: [mapLayer] (this happens in a function updatePipes() )
-}).setView([37.80995, -122.26938], 16);
+    }).setView([37.80995, -122.26938], 16);
 
 L.tileLayer('http://api.tiles.mapbox.com/v4/nbclocal.l391gdl1/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibmJjbG9jYWwiLCJhIjoiS3RIUzNQOCJ9.le_LAljPneLpb7tBcYbQXQ', {
     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
@@ -133,8 +128,8 @@ updatePipes();
 
 // My filter
 function myFilter(feature){
-    if(feature.properties['year'] >= lower && feature.properties['year'] <= upper){return true}
-    else{return false}
+    if(feature.properties.year >= lower && feature.properties.year <= upper){return true;}
+    else{return false;}
 }
 
 //bind click function to layer
@@ -147,13 +142,13 @@ function onEachPoint(feature, layer) {
     feature.properties['marker-size'] = 'small';
     //color logic goes here
 
-    var age = feature.properties['age'];
+    var age = feature.properties.age;
 
     switch (true) {
         // Color by age
         case age == "Unknown":
             feature.properties["marker-color"] = "#898989";
-            feature.properties["year_installed"] = "Unknown";
+            feature.properties.year_installed = "Unknown";
             break;
         case age > 100:
             feature.properties['marker-color'] = colors[6];
@@ -211,17 +206,10 @@ function clickToControl(e){
    console.log(e.target.feature.properties); 
 }
 
-// Cribbed from http://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
-function numberWithCommas(x) {
-    var parts = x.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-}
-
 //updating the control
 info.update = function(data) {
 
-    var buttons = "</div>"
+    var buttons = "</div>";
 
     var placeholder = '<div><h4><strong>Hover over a pin for more info.</strong></h4></p>';
 
@@ -246,4 +234,3 @@ function findlocation(e) {
 
 //instantiate helper finder function
 map.on('click', findlocation);
-
