@@ -37,7 +37,7 @@ $(document).ready(function() {
 
 // SLIDER
 $('#slider').noUiSlider({
-    start: [ 2010, 2010 ],
+    start: [ 2010, 2014 ],
     step: 1,
     orientation: "vertical",
     connect: true,
@@ -134,14 +134,21 @@ function updatePipes() {
 
         //create a mapbox layer out of points that are within bounds
         var thisLayer = L.geoJson(within, {
+            filter: myFilter,
             onEachFeature: onEachPoint
         });
 
         // actually add layer
         thisLayer.addTo(map);
     }
-    // this function draws the points
+// this function draws the points
 updatePipes();
+
+// My filter
+function myFilter(feature){
+    if(feature.properties['year'] >= lower && feature.properties['year'] <= upper){return true}
+    else{return false}
+}
 
 //bind click function to layer
 function onEachPoint(feature, layer) {
@@ -156,15 +163,8 @@ function onEachPoint(feature, layer) {
     var age = feature.properties['age'];
 
     switch (true) {
-        // Replace nulls with unknowns
-        case feature.properties['leak_type'] == null:
-            feature.properties['leak_type'] = "Unknown";
-        case feature.properties['finish_date'] == null:
-            feature.properties['finish_date'] = 'Unknown';
-        case feature.properties['material'] == null:
-            feature.properties['material'] = "Unknown";
         // Color by age
-        case age == null:
+        case age == "Unknown":
             feature.properties["marker-color"] = "#898989";
             feature.properties["year_installed"] = "Unknown";
             break;
