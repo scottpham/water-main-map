@@ -7,7 +7,7 @@ $(document).ready(function() {
             var lat = data.geometry.location.k,
                 lon = data.geometry.location.D;
             // change view and zoom
-            map.setView([lat, lon], 17);
+            map.setView([lat, lon], 15);
 
             // call pipe loading function
             updatePipes();
@@ -68,8 +68,9 @@ var colors = colorbrewer.Purples[7];
 
 //sets map to east bay
 var map = L.map('map', {
-    scrollWheelZoom: false
-    }).setView([37.80995, -122.26938], 16);
+    scrollWheelZoom: false,
+    minZoom: 14
+    }).setView([37.80995, -122.26938], 15);
 
 L.tileLayer('http://api.tiles.mapbox.com/v4/nbclocal.l391gdl1/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibmJjbG9jYWwiLCJhIjoiS3RIUzNQOCJ9.le_LAljPneLpb7tBcYbQXQ', {
     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
