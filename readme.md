@@ -8,4 +8,5 @@ Leaks from the past 4 years from the East Bay Municipal Utilities District, the 
 ###Technologies used:
 - Mapbox.js
 - [Geocodify](http://jquery-geocodify.readthedocs.org/en/latest/) to allow for user search
-- [Turf.js](https://www.mapbox.com/guides/intro-to-turf/) to dynamically render markers (avoids overloading browser with the 4k data points)
+- [Turf.js](https://www.mapbox.com/guides/intro-to-turf/) to dynamically render markers (avoids overloading browser with the ~6k data points)
+- [noUiSlider](http://refreshless.com/nouislider/), a very flexible, unfussy jquery slider
