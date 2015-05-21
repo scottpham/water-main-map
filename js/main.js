@@ -1,13 +1,16 @@
 $(document).ready(function() {
 
     $("#geocoder").geocodify({
-         regionBias: 'US',
         //configure
         onSelect: function(data) {
-            var lat = data.geometry.location.k,
-                lon = data.geometry.location.D;
+            var lat = data.geometry.location.A,
+                lon = data.geometry.location.F,
+                newLocation = [lat, lon];
+
+            // console.log(newLocation);
             // change view and zoom
-            map.setView([lat, lon], 15);
+
+            map.setView(newLocation, 15);
 
             // call pipe loading function
             updatePipes();
@@ -21,13 +24,14 @@ $(document).ready(function() {
                 //otherwise, reset the old marker
                 marker.setLatLng([lat, lon]);
             }
-        }
+        },
+        regionBias: "US"
     });
 });
 
 // SLIDER
 $('#slider').noUiSlider({
-    start: [ 2010, 2014 ],
+    start: [2010, 2014],
     step: 1,
     orientation: "vertical",
     connect: true,
@@ -46,7 +50,7 @@ var range,
     lower,
     upper;
 
-function getSliderVals(){
+function getSliderVals() {
     range = $('#slider').val();
     lower = range[0];
     upper = range[1];
@@ -56,7 +60,7 @@ function getSliderVals(){
 getSliderVals();
 
 $('#slider').on({
-    'change': function(){
+    'change': function() {
         getSliderVals();
         updatePipes();
     }
@@ -70,7 +74,7 @@ var colors = colorbrewer.Purples[7];
 var map = L.map('map', {
     scrollWheelZoom: false,
     minZoom: 14
-    }).setView([37.80995, -122.26938], 15);
+}).setView([37.80995, -122.26938], 15);
 
 L.tileLayer('http://api.tiles.mapbox.com/v4/nbclocal.l391gdl1/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibmJjbG9jYWwiLCJhIjoiS3RIUzNQOCJ9.le_LAljPneLpb7tBcYbQXQ', {
     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
@@ -124,13 +128,16 @@ function updatePipes() {
         // actually add layer
         thisLayer.addTo(map);
     }
-// this function draws the points
+    // this function draws the points
 updatePipes();
 
 // My filter
-function myFilter(feature){
-    if(feature.properties.year >= lower && feature.properties.year <= upper){return true;}
-    else{return false;}
+function myFilter(feature) {
+    if (feature.properties.year >= lower && feature.properties.year <= upper) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 //bind click function to layer
@@ -168,18 +175,18 @@ function onEachPoint(feature, layer) {
             break;
         default:
             feature.properties['marker-color'] = colors[1];
-        }
+    }
 
     //layerstyles won't work without this
     layer.setIcon(L.mapbox.marker.icon(feature.properties));
 }
 
 // get center data
-function getCenter(){
+function getCenter() {
     var center = map.getCenter();
     var zoom = map.getZoom();
     console.log("setView([" + center.lat + ", " + center.lng + "], " + zoom + ")");
-    }
+}
 
 // reset points when state changes:
 map.on('moveend', function(e) {
@@ -203,8 +210,8 @@ function hoverToControl(e) {
     info.update(e.target);
 }
 
-function clickToControl(e){
-   console.log(e.target.feature.properties); 
+function clickToControl(e) {
+    console.log(e.target.feature.properties);
 }
 
 //updating the control
@@ -214,16 +221,16 @@ info.update = function(data) {
 
     var placeholder = '<div><h4><strong>Hover over a pin for more info.</strong></h4></p>';
 
-    this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Location: </strong></p><p>' + data.feature.properties.address + 
-        '</p><p><strong>Leak Date: </strong></p>' + 
-        data.feature.properties['finish_date'] + 
-        '</p><p><strong>Pipe Material: </strong></p>' + 
-        data.feature.properties['material'] + 
-        '</p><p class="leak-text"><strong>Date Built: </strong><div class="priority" style="background-color:' + 
+    this._div.innerHTML = (data ? ('<div class="target-info"><p><strong>Location: </strong></p><p>' + data.feature.properties.address +
+        '</p><p><strong>Leak Date: </strong></p>' +
+        data.feature.properties['finish_date'] +
+        '</p><p><strong>Pipe Material: </strong></p>' +
+        data.feature.properties['material'] +
+        '</p><p class="leak-text"><strong>Date Built: </strong><div class="priority" style="background-color:' +
         data.feature.properties["marker-color"] +
-         '"><span class="priority-text">' + 
+        '"><span class="priority-text">' +
         data.feature.properties['year_installed'] + '</span></div>' +
-         buttons) : placeholder + buttons);
+        buttons) : placeholder + buttons);
 };
 
 info.addTo(map);

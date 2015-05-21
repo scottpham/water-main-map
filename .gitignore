@@ -2,3 +2,4 @@ reference.html
 .divshot-cache
 *.yaml
 dploy.yaml
+.rev
